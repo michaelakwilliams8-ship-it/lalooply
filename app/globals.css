@@ -1,12 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-purple-light: #e0d3e8;
-  --color-purple: #800080;
-  --color-purple-dark: #5c0041;
-  --color-pink-light: #f2b2d0;
-  --color-pink: #ff69b4;
-  --color-pink-dark: #c71585;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Fredoka', system-ui, sans-serif;
 }
 
 @layer base {
@@ -15,23 +11,12 @@
   }
 
   body {
-    background-color: var(--color-gray-950);
-    color: white;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background-color: #F6F4EF;
+    color: #1A1A1A;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
 
-@utility gradient-text {
-  background: linear-gradient(to right, #c084fc, #f472b6, #a855f7);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
 
-@utility card-glass {
-  background-color: rgb(255 255 255 / 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgb(255 255 255 / 0.1);
-  border-radius: 1rem;
-}
