@@ -32,7 +32,7 @@ const MOCK_LOOPS: Loop[] = [
     id: '3',
     user_id: 'demo',
     content: '💡 Hot take: the best ideas always come in loops. You think about them, forget them, and then they circle back stronger than ever.',
-    tags: ['ideas', 'creativity', 'hotake'],
+    tags: ['ideas', 'creativity', 'hottake'],
     likes_count: 213,
     created_at: new Date(Date.now() - 1000 * 60 * 90).toISOString(),
     author_name: 'Morgan Chen',
@@ -68,6 +68,12 @@ function timeAgo(dateStr: string): string {
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
   return `${Math.floor(diff / 86400)}d ago`;
+}
+
+function authorFromEmail(email?: string): { name: string; avatar: string } {
+  const name = email?.split('@')[0] ?? 'Anonymous';
+  const avatar = (email?.slice(0, 2) ?? 'AN').toUpperCase();
+  return { name, avatar };
 }
 
 const LOOP_COLORS = [
@@ -354,6 +360,12 @@ function AuthModal({
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
 
+  function toggleMode() {
+    setMode((m) => (m === 'signin' ? 'signup' : 'signin'));
+    setError('');
+    setInfo('');
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!supabase) {
@@ -457,7 +469,7 @@ function AuthModal({
         <p className="text-center text-sm text-gray-500 mt-4">
           {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
           <button
-            onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setError(''); setInfo(''); }}
+            onClick={toggleMode}
             className="text-purple-400 hover:text-purple-300 font-medium"
           >
             {mode === 'signin' ? 'Sign up' : 'Sign in'}
@@ -523,6 +535,7 @@ export default function Home() {
     setCreateLoading(true);
 
     if (supabase && user) {
+      const { name: authorName, avatar: authorAvatar } = authorFromEmail(user.id ? user.email : undefined);
       const { data, error } = await supabase
         .from('loops')
         .insert({
@@ -530,8 +543,8 @@ export default function Home() {
           tags,
           user_id: user.id,
           likes_count: 0,
-          author_name: user.email?.split('@')[0] ?? 'Anonymous',
-          author_avatar: (user.email?.slice(0, 2) ?? 'AN').toUpperCase(),
+          author_name: authorName,
+          author_avatar: authorAvatar,
         })
         .select()
         .single();
@@ -540,7 +553,7 @@ export default function Home() {
         setLoops((prev) => [data as Loop, ...prev]);
       }
     } else {
-      // Optimistic update with mock data
+      const { name: authorName, avatar: authorAvatar } = authorFromEmail(user?.email);
       const newLoop: Loop = {
         id: `local-${Date.now()}`,
         user_id: 'local',
@@ -548,8 +561,8 @@ export default function Home() {
         tags,
         likes_count: 0,
         created_at: new Date().toISOString(),
-        author_name: user ? (user.email?.split('@')[0] ?? 'You') : 'You',
-        author_avatar: 'YO',
+        author_name: user ? authorName : 'You',
+        author_avatar: user ? authorAvatar : 'YO',
       };
       setLoops((prev) => [newLoop, ...prev]);
     }
