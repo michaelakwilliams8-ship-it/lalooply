@@ -8,16 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        purple: {
-          light: '#e0d3e8',
-          DEFAULT: '#800080',
-          dark: '#5c0041',
+        brand: {
+          blue: '#0057FF',
+          bg: '#F6F4EF',
+          surface: '#FFFFFF',
+          textPrimary: '#1A1A1A',
+          textSecondary: '#666666',
+          gold: '#C98A00',
+          success: '#00913C',
+          error: '#D42B2B',
         },
-        pink: {
-          light: '#f2b2d0',
-          DEFAULT: '#ff69b4',
-          dark: '#c71585',
-        },
+      },
+      fontFamily: {
+        fredoka: ['Fredoka', 'sans-serif'],
+        dmsans: ['DM Sans', 'sans-serif'],
       },
     },
   },
