@@ -13,7 +13,6 @@ export default function SwipePage() {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
   const [peeking, setPeeking] = useState(false);
-  const [direction, setDirection] = useState<'left' | 'right' | null>(null);
   const [gone, setGone] = useState(false);
 
   const fetchSurveys = useCallback(async () => {
@@ -63,13 +62,11 @@ export default function SwipePage() {
   };
 
   const handlePass = () => {
-    setDirection('left');
     setGone(true);
     setPeeking(false);
     setTimeout(() => {
       setCurrent(prev => prev + 1);
       setGone(false);
-      setDirection(null);
     }, 350);
   };
 
