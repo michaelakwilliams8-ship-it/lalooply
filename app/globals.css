@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-fredoka: 'Fredoka', sans-serif;
+  --font-dmsans: 'DM Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F6F4EF;
+  color: #1A1A1A;
+  font-family: var(--font-dmsans);
+}
+
+.font-fredoka {
+  font-family: var(--font-fredoka);
+}
