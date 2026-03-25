@@ -17,7 +17,7 @@ export default function AskPage() {
   const [error, setError] = useState('');
 
   const activeQuestions = questions.filter(q => q.trim().length > 0);
-  const canSubmit = area.trim().length > 0 && activeQuestions.length === 3;
+  const canSubmit = area.trim().length > 0 && activeQuestions.length >= 1;
   const areaWords = area.trim().split(/\s+/).filter(Boolean).length;
   const hasEnoughCoins = (profile?.coins ?? 0) >= 1;
 
@@ -26,7 +26,7 @@ export default function AskPage() {
     if (!user || !profile) return;
 
     if (!canSubmit) {
-      setError('Please add an area and all 3 questions.');
+      setError('Please add an area and at least one question.');
       return;
     }
 
@@ -143,12 +143,12 @@ export default function AskPage() {
 
         <div className="bg-brand-surface rounded-2xl shadow-sm p-5 space-y-4">
           <p className="text-sm font-semibold text-brand-textPrimary">
-            Questions <span className="text-xs font-normal text-brand-textSecondary">(all 3 required, max 200 chars each)</span>
+            Questions <span className="text-xs font-normal text-brand-textSecondary">(1–3, max 200 chars each)</span>
           </p>
           {questions.map((q, i) => (
             <div key={i}>
               <label className="block text-xs text-brand-textSecondary mb-1 font-medium">
-                Question {i + 1} *
+                Question {i + 1}{i === 0 && ' *'}
               </label>
               <textarea
                 value={q}
@@ -157,11 +157,11 @@ export default function AskPage() {
                   newQs[i] = e.target.value;
                   setQuestions(newQs);
                 }}
-                required
+                required={i === 0}
                 rows={2}
                 maxLength={200}
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue transition"
-                placeholder={`Question ${i + 1}...`}
+                placeholder={i === 0 ? 'Your first question...' : `Optional question ${i + 1}...`}
               />
               <p className="text-xs text-gray-400 text-right mt-0.5">
                 {q.length}/200
