@@ -18,19 +18,27 @@ export const supabase = isConfigured
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
-export interface Loop {
-  id: string;
-  user_id: string;
-  content: string;
-  tags: string[];
-  likes_count: number;
-  created_at: string;
-  author_name?: string;
-  author_avatar?: string;
-}
-
 export interface Profile {
   id: string;
-  username: string;
-  avatar_url?: string;
+  name: string;
+  coins: number;
+  created_at: string;
+}
+
+export interface Survey {
+  id: string;
+  area: string;
+  questions: string[];
+  asker_id: string;
+  asker_name: string;
+  created_at: string;
+}
+
+export interface Answer {
+  id: string;
+  survey_id: string;
+  responder_id: string;
+  responder_name: string;
+  responses: string[];
+  created_at: string;
 }
